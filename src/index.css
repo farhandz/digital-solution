@@ -5,9 +5,23 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: 'Roboto', sans-serif;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+
+.wrapper-card {
+  height: 20vh;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.14);
+}
+
+.wrapper-card-info {
+  background: #F0F0F0F0;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.14);
+
 }

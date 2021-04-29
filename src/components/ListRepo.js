@@ -1,4 +1,6 @@
 import React from 'react'
+import Fade from 'react-reveal'
+
 
 function ListRepo({repo}) {
     return (
@@ -7,11 +9,12 @@ function ListRepo({repo}) {
         {repo.map((data , index) => {
             return (
               <div key={index} class="col-md-3 my-4 text-center">
-                <div className="p-4 card-header">
+            <Fade delay={600 * index} right> 
+                <div  className="p-4 wrapper-card">
                   <div>{data.name}</div>
                   <div className="font-weight-bold">{data.language}</div>
                   <div className="mt-3">
-                      <div>Created At</div>
+                      <div className="text-secondary">Created At</div>
                     {new Date(data.created_at).getFullYear() +
                       "-" +
                       Number(new Date(data.created_at).getMonth() + 1) +
@@ -19,6 +22,7 @@ function ListRepo({repo}) {
                       new Date(data.created_at).getDay()}
                   </div>
                 </div>
+            </Fade>
               </div>
             );
         })}

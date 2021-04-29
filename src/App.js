@@ -5,41 +5,51 @@ import { Gif } from './assets';
 import Avatar from 'react-avatar'
 import ListRepo from './components/ListRepo'
 
-
 function App() {
   const [akun, SetAkun] = useState("")
   const [data, setData] = useState(null)
   const [loading , SetLoading] = useState(false);
+  const [repoLoading, SetrepoLoading] = useState(false)
   const [repo, setRepo] = useState(null)
+
+  // handle Submit
   const HandleSubmit = (e) => {
     SetLoading(true)
+    setRepo(null)
     e.preventDefault()
     GithubApi.getDataGithub(akun).then(response => {
      setData(response.data)
      setRepo(null)
     }).catch(err => {
-      setRepo(null)
       setData(err.response.data.message);
     }).finally(() => {
       SetLoading(false)
     })
   }
 
+
+
+  // onKlik repository
   const HandleClick = () => {
+    SetrepoLoading(true)
     GithubApi.getRepository(akun).then(response => {
       setRepo(response.data)
     }).catch((err) => {
       setRepo(err.response.data.message);
+    }).finally(() => {
+      SetrepoLoading(false)
     })
   }
+
+
   return (
     <>
       <div className="wrapper-all container">
-        <h3 className="text-secondary font-weight-bold text-center f-25 my-4">
-          Cari Akun Github
-        </h3>
         <form onSubmit={HandleSubmit}>
-          <div className="form-group">
+          <div className="form-group mt-5">
+            <h3 className="text-secondary font-weight-bold text-center f-25 my-4">
+              Cari Akun Github
+            </h3>
             <label>Akun Github</label>
             <input
               onChange={(e) => SetAkun(e.target.value)}
@@ -62,7 +72,7 @@ function App() {
         ) : data === null ? (
           <p className="text-center">github.com</p>
         ) : (
-          <div className="text-center mt-4 card-header p-5">
+          <div className="text-center mt-4 wrapper-card-info p-5">
             <div>
               <Avatar size="100" src={data.avatar_url} round={true} />
               <div className="mt-2">{data.login}</div>
@@ -82,7 +92,9 @@ function App() {
               >
                 <div>Total Repository</div>
                 <div>{data.public_repos}</div>
-                <small className="text-danger">*Klik Total Repository Untuk Mendapatkan List Repository</small>
+                <small className="text-danger">
+                  *Klik Total Repository Untuk Mendapatkan List Repository
+                </small>
               </div>
               <div className="d-flex justify-content-center mt-3">
                 <div>
@@ -97,8 +109,7 @@ function App() {
             </div>
           </div>
         )}
-
-        {repo === null ? "" : <ListRepo repo={repo} />}
+        {repo === null ? "" : repoLoading ? <div className="text-center">Loading...</div> : <ListRepo repo={repo} />}
       </div>
     </>
   );
